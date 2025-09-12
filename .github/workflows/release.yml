@@ -7,7 +7,7 @@ on:
   workflow_dispatch:  # Allow manual triggering
 
 permissions:
-  contents: write  # For creating releases
+  contents: write
   packages: write  # For pushing to GitHub Container Registry
 
 env:
@@ -50,6 +50,7 @@ jobs:
         retention-days: 1
 
   create-release:
+    permissions: write-all 
     name: Create Release
     needs: build-binaries
     runs-on: ubuntu-latest
@@ -71,8 +72,6 @@ jobs:
       with:
         files: release/*
         generate_release_notes: true
-        draft: false
-        prerelease: false
 
   docker:
     name: Build and Push Docker Image
