@@ -44,7 +44,7 @@ jobs:
     - name: Upload Artifacts
       uses: actions/upload-artifact@de65e23aa2b7e23d713bb51fbfcb6d502f8667d8
       with:
-        name: binaries
+        name: binaries-${{ matrix.arch }}
         path: release/
         if-no-files-found: error
         retention-days: 1
@@ -57,7 +57,13 @@ jobs:
     - name: Download Artifacts
       uses: actions/download-artifact@abefc31eafcfbdf6c5336127c1346fdae79ff41c
       with:
-        name: binaries
+        name: binaries-amd64
+        path: release/
+    
+    - name: Download ARM64 Artifact
+      uses: actions/download-artifact@abefc31eafcfbdf6c5336127c1346fdae79ff41c
+      with:
+        name: binaries-arm64
         path: release/
 
     - name: Create Release
