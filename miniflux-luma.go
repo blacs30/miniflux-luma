@@ -85,13 +85,6 @@ func main() {
 	flag.IntVar(&limit, "limit", 100, "Maximum number of entries to return")
 	flag.Parse()
 
-	// Load API token
-	dat, err := os.ReadFile(APITokenFile)
-	if err != nil {
-		log.Fatal(err)
-	}
-	APIToken = strings.TrimSpace(string(dat))
-
 	// Override with environment variables if provided
 	if envVal := os.Getenv("MINIFLUX_ENDPOINT"); envVal != "" {
 		endpoint = envVal
@@ -116,6 +109,13 @@ func main() {
 	if envVal := os.Getenv("TLS_KEY"); envVal != "" {
 		keyFile = envVal
 	}
+
+	// Load API token
+	dat, err := os.ReadFile(APITokenFile)
+	if err != nil {
+		log.Fatal(err)
+	}
+	APIToken = strings.TrimSpace(string(dat))
 
 	// Authentication using API token then fetch starred items
 	miniflux = client.New(endpoint, APIToken)
